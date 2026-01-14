@@ -26,4 +26,22 @@ class TweetRepository {
             console.log(error);           
         }
     }
+    async distroy(id){
+        try {
+            const tweet = await Tweet.findByIdAndDelete(id);
+            return tweet
+        } catch (error) {
+            console.log(error);           
+        }
+    }
+    async getall(offset, limit){
+        try {
+            const tweet = await Tweet.find().skip(offset).limit(limit);
+            return tweet
+        } catch (error) {
+            console.log(error);           
+        }
+    }
 }
+
+module.exports = TweetRepository
