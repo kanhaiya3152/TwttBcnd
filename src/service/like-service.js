@@ -9,7 +9,7 @@ class LikeService {
 
     async toggleLike(modelId, modelType, userId){ // api/v1/likes/toggle?id=modelid&type=Tweet or comment
         if(modelType == 'Tweet'){
-            var likeable = await this.tweetRepository.get(modelId); 
+            var likeable = await this.tweetRepository.find(modelId); 
             // var likeable = await this.tweetRepository.get(modelId).populate({path: 'likes'}); on Promise(like async func) we don't apply populate func 
         }else if(modelType == 'Comment'){
 
@@ -33,9 +33,9 @@ class LikeService {
             const newLike = await this.likeRepository.create({
                 user: userId,
                 onModel: modelType,
-                likeable: modelId
+                likeable: modelId 
             })
-            
+
             likeable.likes.push(newLike);
             await likeable.save();
             var isAdded = true;
