@@ -1,4 +1,4 @@
-const Hashtag = require('../models/hashtag')
+import Hashtag from '../models/hashtag';
 
 class HashtagRepository {
     async create(data) {
@@ -41,8 +41,8 @@ class HashtagRepository {
         try {
             const tags = await Hashtag.find({
                 title : titleList
-            }).select('title-_id')
-            return tags
+            });
+            return tags;    
         } catch (error) {
             console.log(error);           
         }
@@ -50,4 +50,5 @@ class HashtagRepository {
   
 }
 
-module.exports = HashtagRepository  
+// module.exports = HashtagRepository  
+export default HashtagRepository;

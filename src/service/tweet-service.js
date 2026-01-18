@@ -1,4 +1,4 @@
-const {TweetRepository, HashtagRepository} = require('../repository/index')
+import {TweetRepository, HashtagRepository} from '../repository/index';
 
 class TweetService {
     constructor(){
@@ -8,7 +8,10 @@ class TweetService {
 
     async create(data) {
         const content = data.content;
-        const tags = content.match(/#[a-zA-Z0-9]+/g).map((tag)=> tag.substring(1)); // this regex extracts hashtag
+        const tags = content.match(/#[a-zA-Z0-9]+/g)
+                            .map((tag)=> tag.substring(1))
+                            .map(tag => tag.toLowerCase()) // this regex extracts hashtag and if any hashtag in capital then it converts into small
+                            
         console.log(tags); // gives all the hashtags which present in the content
         const tweet = await this.tweetRepository.create(data);
         let alreadyPresentTags = await this.hashtagRepository.findByName(tags);
@@ -17,8 +20,11 @@ class TweetService {
         newTags = newTags.map(tag => {
             return {title:tag, tweets: [tweet.id]}
         })
-        const response = await this.hashtagRepository.bulkCreate(newTags)
-        console.log(response)
+        await this.hashtagRepository.bulkCreate(newTags) // it create new data with newTags using bulkcreate 
+        alreadyPresentTags.forEach((tag) => { // add the new tweet id if the hasgtag is already present    
+            tag.tweets.push(tweet.id);
+            tag.save();
+        })
         // todo create hashtag and add here
         // 1. bulcreate in mongoose
         // 2. filter title of hashtag based on multuple tags
@@ -27,4 +33,4 @@ class TweetService {
     }
 }
 
-module.exports = TweetService;
+export default TweetService;

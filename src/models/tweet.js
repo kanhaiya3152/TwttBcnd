@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const tweetschema = new mongoose.Schema({
     content: {
@@ -6,13 +6,7 @@ const tweetschema = new mongoose.Schema({
         required: true,
         max: [250, 'Tweet connot more than 250 characters']
     },
-    hashtags: [
-        {
-            type: mongoose.Schema.Types.ObjectId, //to store tweetId
-            ref: 'Hashtag'
-        }
-    ]
 }, { timestamps: true })
 
 const Tweet = mongoose.model('Tweet', tweetschema)
-module.exports = Tweet
+export default Tweet;
