@@ -44,5 +44,3 @@ class TweetRepository {
     }
 }
 export default TweetRepository;
-
-// module.exports = TweetRepository
