@@ -14,8 +14,8 @@ class TweetService {
         console.log(tags); // gives all the hashtags which present in the content
         const tweet = await this.tweetRepository.create(data);
         let alreadyPresentTags = await this.hashtagRepository.findByName(tags);
-        alreadyPresentTags = alreadyPresentTags.map(tag => tag.title);
-        let newTags = tags.filter(tag => !alreadyPresentTags.includes(tag)); 
+        const alreadyPresentTagTitles = alreadyPresentTags.map(tag => tag.title);
+        let newTags = tags.filter(tag => !alreadyPresentTagTitles.includes(tag)); 
         newTags = newTags.map(tag => {
             return {title:tag, tweets: [tweet.id]}
         })
