@@ -25,11 +25,11 @@ class TweetService {
             tag.tweets.push(tweet.id);
             tag.save();
         })
+        return tweet;
         // todo create hashtag and add here
         // 1. bulcreate in mongoose
         // 2. filter title of hashtag based on multuple tags
         //3. How to add tweet id inside all the hasgtags 
-        return tweet;
     }
 }
 
