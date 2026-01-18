@@ -3,13 +3,14 @@ import {LikeRepository, TweetRepository} from '../repository/index.js';
 
 class LikeService {
     constructor(){
-        this.likeRepository = LikeRepository();
-        this.tweetRepository = TweetRepository();
+        this.likeRepository = new LikeRepository();
+        this.tweetRepository = new TweetRepository();
     }
 
     async toggleLike(modelId, modelType, userId){ // api/v1/likes/toggle?id=modelid&type=Tweet or comment
         if(modelType == 'Tweet'){
-            var likeable = await this.tweetRepository.get(modelId).populate('likes');
+            var likeable = await this.tweetRepository.get(modelId); 
+            // var likeable = await this.tweetRepository.get(modelId).populate({path: 'likes'}); on Promise(like async func) we don't apply populate func 
         }else if(modelType == 'Comment'){
 
         }else {
@@ -25,8 +26,8 @@ class LikeService {
         if(exist){ //then remove
             likeable.likes.pull(exist.id);
             await likeable.save();
-            await exist.remove();
-            var isRemoved = true;
+            await exist.deleteOne();
+            var isAdded = false;
         }
         else{ // add like
             const newLike = await this.likeRepository.create({
@@ -34,10 +35,13 @@ class LikeService {
                 onModel: modelType,
                 likeable: modelId
             })
+            
             likeable.likes.push(newLike);
             await likeable.save();
-            var isRemoved = false;
+            var isAdded = true;
         }
-        return isRemoved;
+        return isAdded;
     }
 }
+
+export default LikeService;

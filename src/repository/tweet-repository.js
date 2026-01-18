@@ -5,7 +5,7 @@ class TweetRepository extends CrudRepository {
     constructor(){
         super(Tweet);
     }
-    
+
     async create(data) {
         try {
             const tweet = await Tweet.create(data);
@@ -32,5 +32,15 @@ class TweetRepository extends CrudRepository {
             console.log(error);           
         }
     }
+
+    async find(id){
+        try {
+            const result = await this.model.findById(id).populate({path: 'likes'});
+            return result;
+        } catch (error) {
+            console.log("something went wrong");
+            throw error;
+        }
+    } 
 }
 export default TweetRepository;
