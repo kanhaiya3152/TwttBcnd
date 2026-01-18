@@ -1,4 +1,4 @@
-import {TweetRepository, HashtagRepository} from '../repository/index';
+import {TweetRepository, HashtagRepository} from '../repository/index.js';
 
 class TweetService {
     constructor(){
@@ -9,8 +9,7 @@ class TweetService {
     async create(data) {
         const content = data.content;
         const tags = content.match(/#[a-zA-Z0-9]+/g)
-                            .map((tag)=> tag.substring(1))
-                            .map(tag => tag.toLowerCase()) // this regex extracts hashtag and if any hashtag in capital then it converts into small
+                            .map((tag)=> tag.substring(1).toLowerCase()) // this regex extracts hashtag and if any hashtag in capital then it converts into small
                             
         console.log(tags); // gives all the hashtags which present in the content
         const tweet = await this.tweetRepository.create(data);
