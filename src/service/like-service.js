@@ -1,10 +1,11 @@
 import { model } from 'mongoose';
-import {LikeRepository, TweetRepository} from '../repository/index.js';
+import {LikeRepository, TweetRepository, CommentRepository} from '../repository/index.js';
 
 class LikeService {
     constructor(){
         this.likeRepository = new LikeRepository();
         this.tweetRepository = new TweetRepository();
+        this.commentRepository = new CommentRepository();
     }
 
     async toggleLike(modelId, modelType, userId){ // api/v1/likes/toggle?id=modelid&type=Tweet or comment
@@ -12,7 +13,7 @@ class LikeService {
             var likeable = await this.tweetRepository.find(modelId); 
             // var likeable = await this.tweetRepository.get(modelId).populate({path: 'likes'}); on Promise(like async func) we don't apply populate func 
         }else if(modelType == 'Comment'){
-
+            var likeable = await this.commentRepository.get(modelId);
         }else {
             throw new Error('unknown error');  
         }
