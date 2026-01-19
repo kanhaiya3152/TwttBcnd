@@ -1,6 +1,8 @@
 import JWT from 'passport-jwt';
 import User from '../models/user.js';
 
+//passport strategty -> It's a way to authenticate
+// 
 const JwtStrategy = JWT.Strategy;
 const ExtractJwt = JWT.ExtractJwt;
 
