@@ -4,9 +4,15 @@ import connect from './config/database.js'
 import bodyParser from 'body-parser';
 import apiroutes from './routes/index.js'
 
+import passport from 'passport';
+import { passportAuth } from './config/jwt-middleware.js';
+
 const app = express();
 app.use(bodyParser.json()); // when we testing in the postman it converts to json
 app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(passport.initialize());
+passportAuth(passport);
 
 app.use('/api', apiroutes); 
 
