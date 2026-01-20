@@ -18,7 +18,6 @@ app.use('/api', apiroutes);
 
 dotenv.config();
 
-
 app.listen(3000, async()=>{
     console.log("server starrt");
     await connect();
